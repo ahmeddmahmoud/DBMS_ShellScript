@@ -9,37 +9,37 @@ select choice in "create table" "list tables" "drop table" "insert into table" "
 
       1)
         #calling create table script
-	./create_table.sh $1
-	;;
+	      ./create_table.sh $1
+	    ;;
 
       2)    
         #calling list tables script
-	./main.sh
+	      ./list_tables.sh $1
         ;;
 
       3)    
         #calling drop table script
-	./main.sh
+	      ./drop_table.sh $1
         ;;
 
       4)    
         #calling insert into table script
-	./main.sh
+	      ./insert_tb.sh $1
         ;;
 
       5)    
         #calling select from table script
-	./main.sh
+	      ./select_from_table.sh $1
         ;;
 
       6)
         #calling delete from table script
-	./main.sh
+	      ./delete_from_table.sh $1
         ;;
 
       7)
         #calling update table script
-	./main.sh
+	      ./update_table.sh $1
         ;;
 
       8)

@@ -10,12 +10,16 @@ select choice in "Create DataBase" "List Databases" "Connect to Databases" "Drop
 do
         case $REPLY in
                 1)./create_db.sh
+			break
                         ;;
                 2)./list_dbs.sh
+			break
                         ;;
                 3)./connect_db.sh
+			break
                         ;;
                 4)./drop_db.sh
+			break
                         ;;
                 5) exit
 			break
@@ -24,4 +28,3 @@ do
                         ;;
         esac
 done
-

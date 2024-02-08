@@ -1,17 +1,21 @@
 #!/bin/bash
 db_name=$1
+col_line=""
 
 function create_column(){
-	col_line=""
+	
 	datatype=""
 while true;
 do
+	echo "------------------------------------"
         read -p "Please enter the number of columns: " col_num
-        if [[ $col_num =~ ^[0-9]+$ ]]
+        if [[ $col_num =~ ^[1-9][0-9]*$ ]]
         then
                 break;
         else
-                echo "Please enter numbers only! "
+		echo "--------------------------------"
+                echo "Please enter valid numbers only! "
+		echo "---------------------------------"
         fi
 done
 
@@ -19,12 +23,16 @@ for ((i=1 ; i <= col_num ; i++ ))
 do
 	while true
 	do
+		echo "--------------------------------------"
 		read -p "PLease enter column name: " col_name
-		if [[ $col_name =~ ^[A-Za-z] ]] && [[ $col_name = +([a-zA-Z0-9_]) ]] 
+		echo "---------------------------------------"
+		if [[ $col_name =~ ^[A-Za-z] ]] && [[ $col_name = +([a-zA-Z0-9_]) ]] && [ ! $(echo "$col_line" | awk -v col_name="$col_name" -F ":" '{for (i=1; i<=NF; i++) if ($i == col_name) {print "true"; exit}}') ] 
 		then
 			break 
 		else
+			echo "---------------------------------"
 			echo "PLease enter a valid column name"
+			echo "----------------------------------"
 
 		fi
 	done
@@ -32,6 +40,7 @@ do
 	then
 		
 		col_line+="$col_name:"
+		echo "----------------------------------------------"
 		PS3="please choose a data type for $col_name : "
 		select choice in "int" "string"
 		do
@@ -49,15 +58,19 @@ do
 			esac
 		done
 	fi 
-	echo "done"
+	echo "-----------------------------------------------"
 done
-   echo -e "$col_line" >> ./Databases/$db_name/$tb_name
-   echo -e "$datatype" >> ./Databases/$db_name/$tb_name
+   echo -e "$col_line" >> ./Databases/$db_name/.metadata/$tb_name
+   echo -e "$datatype" >> ./Databases/$db_name/.metadata/$tb_name
+   
    while true
    do
           read -p "Please enter name of column you want to make primary key: " p_k
           if [[ $col_line == *"$p_k:"* ]]
           then
+		primary_key=$p_k
+	        echo -e "$primary_key" >> ./Databases/$db_name/.metadata/$tb_name
+	        echo "-----------------------------------------------"	
 	        echo "Primary key $p_k set successfully"
 	        break
           else
@@ -66,31 +79,38 @@ done
   done
 
 }
-
+echo "------------------------------------------"
 echo -e "PLease enter the name of table: \c"
-
 read -r tb_name
-if [ -e ./Databases/$db_name/$tb_name ]
+echo "------------------------------------------"
+
+if [[ -z $tb_name ]]
+then
+        echo "Table name can not be empty !!!!!!"
+        ./create_table.sh $1
+
+elif [[ ! $tb_name =~ \S ]] && [ -e "./Databases/$db_name/$tb_name" ]
 then
 	echo "------------------------"
 	echo "Table $tb_name is already esist"
-	./main.sh #temporary
+	./menu_db.sh #temporary
+
+
 elif [[ $tb_name =~ ^[A-Za-z] ]] && [[ $tb_name = +([a-zA-Z0-9_]) ]]
 then
 	touch ./Databases/$db_name/$tb_name
+	mkdir -p ./Databases/$db_name/.metadata
+	touch ./Databases/$db_name/.metadata/$tb_name
 	echo "----------------------------"
 	echo "Table $tb_name is created succssefully"
 	echo "----------------------------"
 	create_column
 	#script
+
 else
 	echo "-------------------------"
 	echo "Please enter a valid name"
 	echo "-------------------------"
-	#script
+	./create_table.sh $1
 fi
-
-
-
-
 
