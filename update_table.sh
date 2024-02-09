@@ -1,6 +1,6 @@
 #!/bin/bash
 database_name=$1
-PS3="Choose what to do from menu "
+PS3="Choose what to do from menu (1-2) "
 clear
 echo "----------------------"
 echo "Updating Table Menu"
@@ -34,6 +34,9 @@ done
 if ! [ -f "Databases/$database_name/$table_name" ]; then
      echo "-------------------------------------------------------------------------"
      echo "The name of table you provided ( $table_name ) doesn't exist, returning to menu"
+     sleep 2
+     clear
+     ./mostafa.sh
      exit
 fi 
 
@@ -66,10 +69,12 @@ for col in $columns_names
     done
 
 if [ "$column_update_found" = false ]; then
-    echo "The column you entered doesn't exist, returning back"
+    echo "The column you entered doesn't exist, returning to menu"
     echo "----------------------------------------------------"
     sleep 2
-    ./update_table.sh $database_name
+    clear
+    exit
+    #./update_table.sh $database_name
 fi    
 
 #Asking the user for the new value and checking if the user doesn't input anything
@@ -144,10 +149,12 @@ for col in $columns_names
     done
 
 if [ "$column_condition_found" = false ]; then
-    echo "The column you entered doesn't exist, returning back"
+    echo "The column you entered doesn't exist, returning to menu"
     echo "----------------------------------------------------"
     sleep 2
-    ./update_table.sh $database_name
+    clear
+    exit
+    #./update_table.sh $database_name
 fi
 
 #Asking the user for the condition field and checking if the user doesn't input anything and the fields exists in the table
@@ -176,7 +183,8 @@ fi
 echo "The field was updated successfully !"
 echo "----------------------------------------------------"
 sleep 2
-./update_table.sh $database_name
+
+#./update_table.sh $database_name
 }
 
 select choice in "update table" "return to menu" 
@@ -191,7 +199,8 @@ select choice in "update table" "return to menu"
       2)    
         #returning to menu
           clear
-	      ./menu_db.sh $database_name
+	      #./menu_db.sh $database_name
+          exit
         ;;
 
       *)

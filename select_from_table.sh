@@ -81,7 +81,8 @@ function select_options {
 
         4)
         clear
-        ./menu_db.sh "$database_name"
+        #./menu_db.sh "$database_name"
+        exit
         ;;
 
         *)
@@ -117,7 +118,8 @@ if [ -f "Databases/$database_name/$table" ]
      echo "The name of table you provided ( $table ) doesn't exist, returning to menu"
      echo "----------------------------------------------------------------------------"
      sleep 2
-     ./menu_db.sh "$database_name"
+     clear
+     #./menu_db.sh "$database_name"
 fi    
 
 

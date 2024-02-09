@@ -51,6 +51,7 @@ select choice in "create table" "list tables" "drop table" "insert into table" "
       8)
         clear
         ./main.sh
+        break
         ;;	
 
       *)
