@@ -36,7 +36,6 @@ if ! [ -f "Databases/$database_name/$table_name" ]; then
      echo "The name of table you provided ( $table_name ) doesn't exist, returning to menu"
      sleep 2
      clear
-     ./mostafa.sh
      exit
 fi 
 
