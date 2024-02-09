@@ -22,6 +22,7 @@ do
 			break
                         ;;
                 5)exit
+                        break
                         ;;
 
                 *) echo "$REPLY is not of the choices"
