@@ -1,7 +1,13 @@
 #!/bin/bash
-
 #Changing PS3 to thhe name of the database
-PS3="select what to do in database $1 from (1-8)  "
+PS3="select what to do in database $1 from (1-8) "
+clear
+echo "------------------------------------------"
+echo "Connected to $1 successfully!"
+echo "------------------------------------------"
+echo "--------------------"
+echo "Manipulation Menu"
+echo "--------------------"
 
 select choice in "create table" "list tables" "drop table" "insert into table" "select from table" "delete from table" "update table" "return to menu"
   do
@@ -43,6 +49,7 @@ select choice in "create table" "list tables" "drop table" "insert into table" "
         ;;
 
       8)
+        clear
         ./main.sh
         ;;	
 

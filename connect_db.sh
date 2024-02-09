@@ -23,9 +23,6 @@ if [ -d "$databases_path/$database_name" ]
    #If exists, connect to the database	
    then
      clear
-     echo "------------------------------------------"
-     echo "Connected to $database_name successfully!"
-     echo "------------------------------------------"
      ./menu_db.sh $database_name
 
    #If doesn't exist, return to the menu

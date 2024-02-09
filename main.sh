@@ -21,9 +21,9 @@ do
                 4)./drop_db.sh
 			break
                         ;;
-                5) exit
-			break
+                5)exit
                         ;;
+
                 *) echo "$REPLY is not of the choices"
                         ;;
         esac

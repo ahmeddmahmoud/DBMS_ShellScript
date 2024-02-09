@@ -16,6 +16,7 @@ else
         case $choice in
                 [Y/y])
                         rm -r ./Databases/$1/$tb_name
+			rm -r ./Databases/$1/.metadata/$tb_name
                         echo "Table $tb_name deleted successfully"
                         echo "--------------------------------"
                         ;;

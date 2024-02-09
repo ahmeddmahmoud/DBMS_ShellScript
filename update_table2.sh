@@ -1,11 +1,5 @@
 #!/bin/bash
 database_name=$1
-PS3="Choose what to do from menu "
-clear
-echo "----------------------"
-echo "Updating Table Menu"
-echo "----------------------"
-
 
 #Function to check if the user doesn't input anything
 validate_input() {
@@ -19,7 +13,6 @@ validate_input() {
     fi
 }
 
-update_table(){
 #Asking the user for the table name and checking if the user doesn't input anything
 while true; 
 do
@@ -33,7 +26,8 @@ done
 #checking if the table exists in the database
 if ! [ -f "Databases/$database_name/$table_name" ]; then
      echo "-------------------------------------------------------------------------"
-     echo "The name of table you provided ( $table_name ) doesn't exist, returning to menu"
+     echo "The name of table you provided ( $table_name ) doesn't exist, insert valid one"
+     echo "-------------------------------------------------------------------------"
      exit
 fi 
 
@@ -68,7 +62,6 @@ for col in $columns_names
 if [ "$column_update_found" = false ]; then
     echo "The column you entered doesn't exist, returning back"
     echo "----------------------------------------------------"
-    sleep 2
     ./update_table.sh $database_name
 fi    
 
@@ -146,7 +139,6 @@ for col in $columns_names
 if [ "$column_condition_found" = false ]; then
     echo "The column you entered doesn't exist, returning back"
     echo "----------------------------------------------------"
-    sleep 2
     ./update_table.sh $database_name
 fi
 
@@ -174,28 +166,3 @@ else
 fi
 
 echo "The field was updated successfully !"
-echo "----------------------------------------------------"
-sleep 2
-./update_table.sh $database_name
-}
-
-select choice in "update table" "return to menu" 
-  do
-    case "$REPLY" in 
-
-      1)
-        #calling update function
-	      update_table
-	    ;;
-
-      2)    
-        #returning to menu
-          clear
-	      ./menu_db.sh $database_name
-        ;;
-
-      *)
-	    echo "Invalid number! please select a number from  (1-2)  "
-        ;;
-    esac
-  done

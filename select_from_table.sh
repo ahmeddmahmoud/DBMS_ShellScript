@@ -2,6 +2,13 @@
 PS3="select from the menu "
 database_name=$1
 
+clear
+echo "-----------------------"
+echo "Select from Table Menu"
+echo "-----------------------"
+
+##############################################  Functions ############################################
+######################################################################################################
 #function to select all the table
 function select_all {
   clear
@@ -10,43 +17,80 @@ function select_all {
   select_options $table
 }
 
-#function to select row by a given value
-function select_row {
+function select_value {
   read -p "please enter the value you want to search by " value
   clear
   if grep -q -w "$value" "Databases/$database_name/$1"
    then
      grep -w "$value" "Databases/$database_name/$1"
-     echo "--------------------------------------------"
-
    else
      echo "No matching rows found for $value"
-     echo "--------------------------------------------"
   fi
+  echo "--------------------------------------------"
+  select_options $table
+}
+
+#function to select row by a value of primary key
+function select_pk {
+  #Asking for the value of primary key and checking that it is not empty 
+  while true
+  do
+    read -p "please enter the value of primary key you want to search by? " value
+    if [ -z "$value" ]
+       then
+          echo "Invalid input! you should enter a value"
+       else
+          break
+    fi
+  done
+  clear
+  #getting the number of pk column 
+  column_number_pk=$(awk -F ':' -v primary_key=$primary_key '{ for (i=1; i<NF; i++) { if ($i == primary_key) { print i } } }' "./Databases/$database_name/.metadata/$table")
+
+  #Checking for the matched record of value
+  output=$(awk -F ':' -v column_number_pk=$column_number_pk -v value=$value '$column_number_pk == value { print }' "./Databases/$database_name/$table") 
+  
+  if [ -z "$output" ]; then
+    echo "No matching records found."
+  else
+    echo "$output"
+  fi
+  echo "--------------------------------------------"
   select_options $table
 }
 
 #function for Asking user about the options of selection
 function select_options {
-  select choice in "select all the table" "select row" 
+  echo "-----------------------"
+  echo "Select from Table Menu"
+  echo "-----------------------"
+  select choice in "select all the table" "select by primary key" "select by just a value" "return"
    do
     case "$REPLY" in
         1)
-        echo "select all the table"
         select_all "$1"
-        exit
         ;;
 
         2)
-        echo "select row"
-        select_row "$1"
+        select_pk "$1"
+        ;;
+
+        3)
+        select_value "$1"
+        ;;
+
+        4)
+        clear
+        ./menu_db.sh "$database_name"
         ;;
 
         *)
-        echo "Invalid input! You should select from (1-2)"
+        echo "Invalid input! You should select from (1-4)"
     esac
   done
 }
+######################################################################################################
+######################################################################################################
 
 #Getting the name of table from the user and checking for not typing input
 while true
@@ -65,12 +109,15 @@ while true
 #checking if the table exists in the database
 if [ -f "Databases/$database_name/$table" ]
   then
+    primary_key=$(awk -F ':' 'NR==3 {print $0}' ./Databases/$database_name/.metadata/$table)
+    clear
     select_options $table
   else
-     echo "--------------------------------------------------------------------------------------"
+     echo "----------------------------------------------------------------------------"
      echo "The name of table you provided ( $table ) doesn't exist, returning to menu"
-     echo "--------------------------------------------------------------------------------------"
-     exit
+     echo "----------------------------------------------------------------------------"
+     sleep 2
+     ./menu_db.sh "$database_name"
 fi    
 
 

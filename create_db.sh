@@ -1,13 +1,15 @@
 #!/bin/bash
 
+
 while true
 do
       echo -e "Please enter the name of Database: \c"
       read -r name
       if [ -z $name ]
       then
-	        clear
+	        echo "----------------------------------------------"
         	echo "Name of the database can't be empty !!!!"
+		echo "------------------------------------------------"
       else
          	break
       fi
@@ -23,9 +25,9 @@ elif [[ $name =~ ^[A-Za-z] ]] && [[ $name = +([a-zA-Z0-9_]) ]]
 then
 	mkdir ./Databases/$name
 	clear
-	echo "--------------------------"
+	echo "---------------------------------"
 	echo "Database $name is created succssefully"
-	echo "--------------------------"
+	echo "---------------------------------"
 	./main.sh
 else 
 	clear
@@ -34,3 +36,4 @@ else
 	echo "--------------------"
 	./create_db.sh
 fi
+

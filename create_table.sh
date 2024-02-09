@@ -1,6 +1,7 @@
 #!/bin/bash
 db_name=$1
 col_line=""
+col_array=""
 
 function create_column(){
 	
@@ -62,11 +63,21 @@ do
 done
    echo -e "$col_line" >> ./Databases/$db_name/.metadata/$tb_name
    echo -e "$datatype" >> ./Databases/$db_name/.metadata/$tb_name
-   
+   col_array=(${col_line//:/ })
    while true
    do
+	   echo "------------------------------------------"
           read -p "Please enter name of column you want to make primary key: " p_k
-          if [[ $col_line == *"$p_k:"* ]]
+	  found=false
+	  for element in "${col_array[@]}"; do
+              # Check if p_k is equal to the current element
+              if [ "$p_k" = "$element" ]; then
+                 found=true
+                 break
+              fi
+         done
+	 echo "found is $found"
+          if $found
           then
 		primary_key=$p_k
 	        echo -e "$primary_key" >> ./Databases/$db_name/.metadata/$tb_name
@@ -74,7 +85,9 @@ done
 	        echo "Primary key $p_k set successfully"
 	        break
           else
+		  echo "------------------------------------"
 	        echo "Primary key not found in the list of columns"
+		echo "--------------------------------------"
           fi
   done
 
@@ -86,7 +99,9 @@ echo "------------------------------------------"
 
 if [[ -z $tb_name ]]
 then
+	echo "--------------------------------------"
         echo "Table name can not be empty !!!!!!"
+	echo "--------------------------------------"
         ./create_table.sh $1
 
 elif [[ ! $tb_name =~ \S ]] && [ -e "./Databases/$db_name/$tb_name" ]
