@@ -14,3 +14,4 @@ else
 	echo "No tables to list !!! "
 	echo "--------------------------------"
 fi
+./menu.sh "$1"

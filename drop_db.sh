@@ -34,12 +34,16 @@ if [ -d "$databases_path/$database_name_remove" ]
 	       echo "Database ( $database_name_remove ) was removed successfully"
 	       echo "--------------------------------------------"
 	       rm -r "$databases_path/$database_name_remove"
+         sleep 2
+         clear	
 	       break;;
 	   #The user cancelled the deleting operation
            [Nn])
 	       echo "------------------------------------------------------"
     	       echo "Cancelling deleting operation of Database ( $database_name_remove )"
-	       echo "------------------------------------------------------"	      
+	       echo "------------------------------------------------------"
+         sleep 2
+         clear	      
 	       break;;
 	   #The user enters invalid answer
 	   *)
@@ -55,7 +59,9 @@ if [ -d "$databases_path/$database_name_remove" ]
    else
       echo "----------------------------------------------------------------------"
       echo "The database you entered ( $database_name_remove ) doesn't exist, returning to menu"
-      echo "----------------------------------------------------------------------"      
+      echo "----------------------------------------------------------------------" 
+      sleep 2
+      clear     
       ./main.sh
 fi
 

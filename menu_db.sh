@@ -59,4 +59,3 @@ select choice in "create table" "list tables" "drop table" "insert into table" "
        ;;
     esac
   done
-

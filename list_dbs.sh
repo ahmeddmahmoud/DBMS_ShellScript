@@ -6,16 +6,15 @@ if [ "$(ls -A $dir)" ]
 then 
 	clear
 	echo "----------------"
-	echo "Databases is"
+	echo "Databases Are"
 	echo "----------------"
 	ls $dir
 	echo "----------------"
-	
 	./main.sh
 else
 	clear
 	echo "----------------"
-	echo "there is no databases available"
+	echo "there are no databases available"
 	echo "----------------"
 	./main.sh
 fi

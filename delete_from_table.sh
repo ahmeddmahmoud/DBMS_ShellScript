@@ -44,7 +44,7 @@ function delete_pk {
   #Asking for the value of primary key and checking that it is not empty 
   while true
   do
-    read -p "please enter the value of primary key you want to delete by? " value
+    read -p "please enter the value of primary key ($primary_key column) you want to search by? " value
     if [ -z "$value" ]
        then
           echo "Invalid input! you should enter a value"
@@ -93,8 +93,8 @@ function delete_options {
 
         4)
         clear
+        ./menu.sh "$database_name"
         exit
-        #./menu_db.sh "$database_name"
         ;;
 
         *)
@@ -130,7 +130,8 @@ if [ -f "Databases/$database_name/$table" ]
      echo "The name of table you provided ( $table ) doesn't exist, returning to menu"
      echo "----------------------------------------------------------------------------"
      sleep 2
-     #./menu_db.sh "$database_name"
+     clear
+     ./menu.sh "$database_name"
 fi    
 
 

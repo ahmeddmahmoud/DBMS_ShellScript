@@ -12,6 +12,7 @@ echo "-----------------------"
 #function to select all the table
 function select_all {
   clear
+  sed -n '1p' "Databases/$database_name/.metadata/$table"
   cat Databases/$database_name/$1 | more
   echo "--------------------------------------------"
   select_options $table
@@ -22,6 +23,7 @@ function select_value {
   clear
   if grep -q -w "$value" "Databases/$database_name/$1"
    then
+     sed -n '1p' "Databases/$database_name/.metadata/$table"
      grep -w "$value" "Databases/$database_name/$1"
    else
      echo "No matching rows found for $value"
@@ -35,7 +37,7 @@ function select_pk {
   #Asking for the value of primary key and checking that it is not empty 
   while true
   do
-    read -p "please enter the value of primary key you want to search by? " value
+    read -p "please enter the value of primary key ($primary_key column) you want to search by? " value
     if [ -z "$value" ]
        then
           echo "Invalid input! you should enter a value"
@@ -53,6 +55,7 @@ function select_pk {
   if [ -z "$output" ]; then
     echo "No matching records found."
   else
+    sed -n '1p' "Databases/$database_name/.metadata/$table"
     echo "$output"
   fi
   echo "--------------------------------------------"
@@ -81,7 +84,7 @@ function select_options {
 
         4)
         clear
-        #./menu_db.sh "$database_name"
+        ./menu.sh "$database_name"
         exit
         ;;
 
@@ -120,6 +123,7 @@ if [ -f "Databases/$database_name/$table" ]
      sleep 2
      clear
      #./menu_db.sh "$database_name"
+     ./menu.sh "$database_name"
 fi    
 
 

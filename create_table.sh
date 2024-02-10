@@ -16,7 +16,7 @@ do
         else
 		echo "--------------------------------"
                 echo "Please enter valid numbers only! "
-		echo "---------------------------------"
+		#echo "---------------------------------"
         fi
 done
 
@@ -26,14 +26,14 @@ do
 	do
 		echo "--------------------------------------"
 		read -p "PLease enter column name: " col_name
-		echo "---------------------------------------"
+		#echo "---------------------------------------"
 		if [[ $col_name =~ ^[A-Za-z] ]] && [[ $col_name = +([a-zA-Z0-9_]) ]] && [ ! $(echo "$col_line" | awk -v col_name="$col_name" -F ":" '{for (i=1; i<=NF; i++) if ($i == col_name) {print "true"; exit}}') ] 
 		then
 			break 
 		else
 			echo "---------------------------------"
 			echo "PLease enter a valid column name"
-			echo "----------------------------------"
+			#echo "----------------------------------"
 
 		fi
 	done
@@ -41,7 +41,7 @@ do
 	then
 		
 		col_line+="$col_name:"
-		echo "----------------------------------------------"
+		#echo "----------------------------------------------"
 		PS3="please choose a data type for $col_name : "
 		select choice in "int" "string"
 		do
@@ -59,7 +59,7 @@ do
 			esac
 		done
 	fi 
-	echo "-----------------------------------------------"
+	#echo "-----------------------------------------------"
 done
    echo -e "$col_line" >> ./Databases/$db_name/.metadata/$tb_name
    echo -e "$datatype" >> ./Databases/$db_name/.metadata/$tb_name
@@ -76,18 +76,19 @@ done
                  break
               fi
          done
-	 echo "found is $found"
+
           if $found
           then
 		primary_key=$p_k
 	        echo -e "$primary_key" >> ./Databases/$db_name/.metadata/$tb_name
 	        echo "-----------------------------------------------"	
-	        echo "Primary key $p_k set successfully"
+	        echo "Primary key $p_k set successfully, returning back to menu"
+			sleep 2
 	        break
           else
 		  echo "------------------------------------"
 	        echo "Primary key not found in the list of columns"
-		echo "--------------------------------------"
+		#echo "--------------------------------------"
           fi
   done
 
@@ -95,20 +96,22 @@ done
 echo "------------------------------------------"
 echo -e "PLease enter the name of table: \c"
 read -r tb_name
-echo "------------------------------------------"
+#echo "------------------------------------------"
 
 if [[ -z $tb_name ]]
 then
 	echo "--------------------------------------"
         echo "Table name can not be empty !!!!!!"
-	echo "--------------------------------------"
+	#echo "--------------------------------------"
         ./create_table.sh $1
 
 elif [[ ! $tb_name =~ \S ]] && [ -e "./Databases/$db_name/$tb_name" ]
 then
 	echo "------------------------"
-	echo "Table $tb_name is already esist"
-	./menu_db.sh #temporary
+	echo "Table $tb_name is already exist, returning to menu"
+	sleep 2
+	clear
+	./menu.sh "$db_name"
 
 
 elif [[ $tb_name =~ ^[A-Za-z] ]] && [[ $tb_name = +([a-zA-Z0-9_]) ]]
@@ -117,9 +120,12 @@ then
 	mkdir -p ./Databases/$db_name/.metadata
 	touch ./Databases/$db_name/.metadata/$tb_name
 	echo "----------------------------"
-	echo "Table $tb_name is created succssefully"
-	echo "----------------------------"
+	echo "Table $tb_name is created succssefully "
+	#echo "----------------------------"
 	create_column
+	sleep 2
+	clear
+	./menu.sh "$db_name"
 	#script
 
 else

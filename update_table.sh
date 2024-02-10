@@ -36,6 +36,7 @@ if ! [ -f "Databases/$database_name/$table_name" ]; then
      echo "The name of table you provided ( $table_name ) doesn't exist, returning to menu"
      sleep 2
      clear
+     ./menu.sh "$database_name"
      exit
 fi 
 
@@ -72,8 +73,8 @@ if [ "$column_update_found" = false ]; then
     echo "----------------------------------------------------"
     sleep 2
     clear
+    ./menu.sh "$database_name"
     exit
-    #./update_table.sh $database_name
 fi    
 
 #Asking the user for the new value and checking if the user doesn't input anything
@@ -152,8 +153,8 @@ if [ "$column_condition_found" = false ]; then
     echo "----------------------------------------------------"
     sleep 2
     clear
+    ./menu.sh "$database_name"
     exit
-    #./update_table.sh $database_name
 fi
 
 #Asking the user for the condition field and checking if the user doesn't input anything and the fields exists in the table
@@ -182,8 +183,9 @@ fi
 echo "The field was updated successfully !"
 echo "----------------------------------------------------"
 sleep 2
-
-#./update_table.sh $database_name
+clear
+./menu.sh "$database_name"
+exit
 }
 
 select choice in "update table" "return to menu" 
@@ -197,8 +199,8 @@ select choice in "update table" "return to menu"
 
       2)    
         #returning to menu
-          clear
-	      #./menu_db.sh $database_name
+           clear
+          ./menu.sh "$database_name"
           exit
         ;;
 
