@@ -1,16 +1,18 @@
 #!/bin/bash
 
-
 while true
 do
       echo -e "Please enter the name of Database: \c"
       read -r name
-      if [ -z $name ]
-      then
-	        echo "----------------------------------------------"
-        	echo "Name of the database can't be empty !!!!"
-		echo "------------------------------------------------"
-      else
+      if [ -z "$name" ];then
+	    echo "----------------------------------------------"
+        echo "Name of the database can't be empty !!!!"
+		echo "----------------------------------------------"
+	    elif [[ "$name" =~ [^a-zA-Z0-9_] ]];then
+        echo "-----------------"
+        echo "Invalid input!"
+        echo "-----------------"
+       else
          	break
       fi
 done

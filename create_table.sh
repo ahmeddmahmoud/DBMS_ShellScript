@@ -16,7 +16,6 @@ do
         else
 		echo "--------------------------------"
                 echo "Please enter valid numbers only! "
-		#echo "---------------------------------"
         fi
 done
 
@@ -26,22 +25,18 @@ do
 	do
 		echo "--------------------------------------"
 		read -p "PLease enter column name: " col_name
-		#echo "---------------------------------------"
 		if [[ $col_name =~ ^[A-Za-z] ]] && [[ $col_name = +([a-zA-Z0-9_]) ]] && [ ! $(echo "$col_line" | awk -v col_name="$col_name" -F ":" '{for (i=1; i<=NF; i++) if ($i == col_name) {print "true"; exit}}') ] 
 		then
 			break 
 		else
 			echo "---------------------------------"
 			echo "PLease enter a valid column name"
-			#echo "----------------------------------"
-
 		fi
 	done
 	if (( $i <= col_num ))
 	then
 		
 		col_line+="$col_name:"
-		#echo "----------------------------------------------"
 		PS3="please choose a data type for $col_name : "
 		select choice in "int" "string"
 		do
@@ -59,7 +54,6 @@ do
 			esac
 		done
 	fi 
-	#echo "-----------------------------------------------"
 done
    echo -e "$col_line" >> ./Databases/$db_name/.metadata/$tb_name
    echo -e "$datatype" >> ./Databases/$db_name/.metadata/$tb_name
@@ -88,7 +82,6 @@ done
           else
 		  echo "------------------------------------"
 	        echo "Primary key not found in the list of columns"
-		#echo "--------------------------------------"
           fi
   done
 
@@ -96,15 +89,16 @@ done
 echo "------------------------------------------"
 echo -e "PLease enter the name of table: \c"
 read -r tb_name
-#echo "------------------------------------------"
 
 if [[ -z $tb_name ]]
 then
 	echo "--------------------------------------"
         echo "Table name can not be empty !!!!!!"
-	#echo "--------------------------------------"
         ./create_table.sh $1
-
+elif [[ "$tb_name" =~ [^a-zA-Z0-9_] ]];then
+        echo "-----------------"
+        echo "Invalid input!"
+        echo "-----------------"
 elif [[ ! $tb_name =~ \S ]] && [ -e "./Databases/$db_name/$tb_name" ]
 then
 	echo "------------------------"
@@ -121,12 +115,10 @@ then
 	touch ./Databases/$db_name/.metadata/$tb_name
 	echo "----------------------------"
 	echo "Table $tb_name is created succssefully "
-	#echo "----------------------------"
 	create_column
 	sleep 2
 	clear
 	./menu.sh "$db_name"
-	#script
 
 else
 	echo "-------------------------"

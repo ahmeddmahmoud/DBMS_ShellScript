@@ -9,9 +9,13 @@ while true
     read -p "Please enter the name of database you wish to remove? " database_name_remove
     if [ -z "$database_name_remove" ]
        then
-	  echo "-------------------------------------------------"
+	        echo "-------------------------------------------------"
           echo "Invalid input ! you should enter a database name"
-	  echo "-------------------------------------------------"
+	        echo "-------------------------------------------------"
+        elif [[ "$database_name_remove" =~ [^a-zA-Z0-9_] ]]; then
+          echo "-----------------"
+          echo "Invalid input!"
+          echo "-----------------"
        else
 	  break
     fi

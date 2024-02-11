@@ -172,7 +172,6 @@ do
 done
 
 #updating the column
-#awk -F ':' -v update_column=$index -v condition_column=$index_2 -v condition_field=$condition_field -v value=$value '$condition_column == condition_field { $update_column = value } { print }' "./Databases/$database_name/$table_name" > temp.txt && mv temp.txt "./Databases/$database_name/$table_name"
 if [ "$update_column" = "$primary_key" ]; then
     awk -F ':' -v update_column=$index -v condition_column=$index_2 -v condition_field=$condition_field -v value=$value 'BEGIN { OFS=FS=":" } $condition_column == condition_field && !updated { $update_column = value; updated = 1 }{ print }' "./Databases/$database_name/$table_name" > temp.txt && mv temp.txt "./Databases/$database_name/$table_name"
 else

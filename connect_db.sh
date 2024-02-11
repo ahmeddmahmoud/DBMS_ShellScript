@@ -12,10 +12,15 @@ while true
           echo "-------------------------------------------------"
           echo "Invalid input ! you should enter a database name"
           echo "-------------------------------------------------"
+       elif [[ "$database_name" =~ [^a-zA-Z0-9_] ]]; then
+        echo "-----------------"
+        echo "Invalid input!"
+        echo "-----------------"
        else
           break
     fi
   done
+
 
 #Checking if the name of database exist
 if [ -d "$databases_path/$database_name" ]
@@ -31,6 +36,8 @@ if [ -d "$databases_path/$database_name" ]
      echo "--------------------------------------------------------------------------------------"
      echo "The name of database you provided ( $database_name ) doesn't exist, returning to menu"
      echo "--------------------------------------------------------------------------------------"
+     sleep 2 
+     clear
      ./main.sh 
 fi
 

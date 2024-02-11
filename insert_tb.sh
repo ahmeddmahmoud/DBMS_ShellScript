@@ -1,8 +1,18 @@
 #!/bin/bash
 data_row=""
-echo "------------------------------"
-read -p "Please enter table you want to insert into: " tb_name
-#echo "-------------------------------------"
+	echo "------------------------------"
+while true;
+  do
+	read -p "Please enter table you want to insert into: " tb_name
+    if [[ "$tb_name" =~ [^a-zA-Z0-9_] ]]; then
+      echo "-----------------"
+      echo "Invalid input!"
+      echo "-----------------"
+    else
+	   break
+	fi
+  done
+
 if [ -e ./Databases/$1/$tb_name ]
 then
 	
@@ -27,7 +37,6 @@ then
 		do
 			echo "----------------------------------------"
 			read -p "PLease enter the value of $field_name: " data
-			#echo "----------------------------------------"
 			if [[ $data =~ ^[0-9]+$ ]]
 			then
 			        if [ "$pk" = "$field_name" ]
@@ -37,11 +46,11 @@ then
 				        	if [[ $data =~ ^[0-9]+$ ]] && \
             awk -F: -v x="$data" -v i="$i" '$i == x {found=1; exit} END{exit !found}' "./Databases/$1/$tb_name"
 				         	then
-							  #echo "-------------------------------------"
+
                                                           echo "$field_name is a primary key must be unique and integer"
-					        	  #echo "----------------------------------------------"
+
 						          read -p "PLease enter a valid value of $field_name: " data
-							  #echo "---------------------------------------------"
+	
 						  else
 						          break
                                                   fi
@@ -51,7 +60,7 @@ then
 			else
 				echo "-------------------------------------"
 				echo "please enter an integer number only !!!"
-				#echo "-------------------------------------"
+
 
 			fi
 		done
@@ -59,9 +68,9 @@ then
 	else
 		while true
                 do
-                        #echo "----------------------------------------"
+
                         read -p "PLease enter the value of $field_name: " data
-                        #echo "----------------------------------------"
+
                         if [[ $data =~ ^[a-zA-Z][a-zA-Z_@]+$ ]]
                         then
 				if [ "$pk" = "$field_name" ]
@@ -73,9 +82,9 @@ then
                                                 then
 							  echo "-------------------------------------"
                                                           echo "$field_name is a primary key must be unique and string"
-                                                          #echo "----------------------------------------------"
+
                                                           read -p "PLease enter a valid the value of $field_name: " data
-							  #echo "------------------------------------------------"
+
 						  else
                                                           break
                                                   fi
@@ -87,14 +96,14 @@ then
                         else
 				echo "-------------------------------------"
                                 echo "please enter a string only !!!"
-				#echo "-------------------------------------"
+
 
                         fi
                 done
 		
 	fi
 	data_row+="$data:"
-        #echo "---------------------------"
+
 	
         done
 	echo -e "$data_row" >> ./Databases/$1/$tb_name
@@ -103,11 +112,9 @@ then
 	clear
 	./menu.sh "$1"
 else 
-	echo "Table doesn't exist"  
+	echo "Table doesn't exist, returning to menu"  
 	echo "------------------------------"
 	sleep 2
 	clear
 	./menu.sh "$1"
 fi
-
-

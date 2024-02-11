@@ -122,7 +122,6 @@ if [ -f "Databases/$database_name/$table" ]
      echo "----------------------------------------------------------------------------"
      sleep 2
      clear
-     #./menu_db.sh "$database_name"
      ./menu.sh "$database_name"
 fi    
 
