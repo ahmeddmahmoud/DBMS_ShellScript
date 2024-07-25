@@ -33,5 +33,3 @@ This repository contains a collection of shell scripts for managing databases. T
 4. Run the desired script:
    ```bash
    ./script_name.sh
-
-
