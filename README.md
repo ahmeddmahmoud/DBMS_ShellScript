@@ -23,12 +23,15 @@ This repository contains a collection of shell scripts for managing databases. T
    git clone https://github.com/ahmeddmahmoud/DBMS_ShellScript.git
 
 2. Navigate to the directory:
-  cd DBMS_ShellScript
+   ```bash
+   cd DBMS_ShellScript
 
 3. Make the scripts executable:
-  chmod +x *.sh
+   ```bash
+   chmod +x *.sh
 
-4.Run the desired script:
- ./script_name.sh
+4. Run the desired script:
+   ```bash
+   ./script_name.sh
 
 
